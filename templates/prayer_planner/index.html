@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Prayer Planner & Journal</h2>
+
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+
+    <a href="{% url 'prayers:index' %}">Start praying</a>
+{% else %}
+    More here soon...
+{% endif %}
+
+{% endblock %}

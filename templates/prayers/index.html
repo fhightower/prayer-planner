@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Prayers</h2>
+
+{% if prayer_requests %}
+<ul class="accordion" data-accordion>
+    {% for day in days %}
+        {% if prayer_requests|get_item:day %}
+            {% if day == today %}
+                <li class="accordion-item is-active" data-accordion-item id="{{ day }}">
+            {% else %}
+                <li class="accordion-item" data-accordion-item id="{{ day }}">
+            {% endif %}
+                <a href="" class="accordion-title">{{ day }}</a>
+                <div class="accordion-content" data-tab-content >
+                  <ul>
+                      {% for request in prayer_requests|get_item:day %}
+                          <li><a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
+                      {% endfor %}
+                  </ul>
+                </div>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a class="button" href="{% url 'prayers:create' %}">Add a new prayer request</a>
+
+<script>
+    window.setTimeout(function() {
+        $(document).foundation();
+    }, 100);
+</script>
+{% endblock %}

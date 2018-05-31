@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ object.title }}</h2>
+
+<p>{{ object.day }}</p>
+
+<!-- TODO: make sure this is displaying newlines properly -->
+<p>{{ object.description }}</p>
+
+<a href="{% url 'prayers:index' %}">Return to view all prayer items</a>
+
+{% endblock %}

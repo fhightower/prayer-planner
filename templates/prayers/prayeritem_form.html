@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add a New Prayer Item</h2>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input class="button" type="submit" value="Create" />
+</form>
+
+<script>
+    // TODO: focus on the title field
+    $('input')[0].focus();
+</script>
+{% endblock %}
