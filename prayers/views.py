@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.defaulttags import register
@@ -15,7 +16,7 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'prayers/index.html'
 
     def get(self, request):
@@ -30,11 +31,11 @@ class IndexView(generic.TemplateView):
         return render(request, self.template_name, {'prayer_requests': prayer_requests, 'days': [day[1] for day in DAYS_OF_WEEK], 'today': datetime.datetime.today().strftime('%A')})
 
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = PrayerItem
 
 
-class CreateRequestView(generic.edit.CreateView):
+class CreateRequestView(LoginRequiredMixin, generic.edit.CreateView):
     model = PrayerItem
     fields = ['title', 'day', 'description']
 
@@ -42,7 +43,7 @@ class CreateRequestView(generic.edit.CreateView):
         return reverse('prayers:details', args=(self.object.id,))
 
 
-class CreateJournalEntryView(generic.edit.CreateView):
+class CreateJournalEntryView(LoginRequiredMixin, generic.edit.CreateView):
     model = JournalEntry
     fields = ['text']
     pk = None
