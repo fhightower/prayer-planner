@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Add a New Prayer Item</h2>
+<h2>Add a Journal Entry</h2>
 
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
@@ -10,7 +10,7 @@
 
 <script>
     window.setTimeout(function() {
-        $('input')[0].focus();
+        $('textarea')[0].focus();
     }, 100);
 </script>
 {% endblock %}

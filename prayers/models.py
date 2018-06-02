@@ -17,7 +17,7 @@ class PrayerItem(models.Model):
     title = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
     day = models.CharField(max_length=5, choices=DAYS_OF_WEEK)
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
 
 class JournalEntry(models.Model):
@@ -27,7 +27,7 @@ class JournalEntry(models.Model):
 
     def save(self, *args, **kwargs):
         """On save, update timestamps"""
-        if not self.first_seen:
+        if not self.date_created:
             self.date_created = timezone.now()
         # self.modified = timezone.now()
         return super(JournalEntry, self).save(*args, **kwargs)

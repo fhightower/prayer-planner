@@ -8,6 +8,26 @@
 <!-- TODO: make sure this is displaying newlines properly -->
 <p>{{ object.description }}</p>
 
+{% if object.journalentry_set.all %}
+    <h3>Journal Entries</h3>
+
+    <ul>
+        {% for entry in object.journalentry_set.all %}
+            <li>
+                <i>{{ entry.date_created|date:"F d, Y" }}:</i> {{ entry.text }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<a href="{% url 'prayers:create_journal' object.id %}">Add a journal entry</a><br>
+
 <a href="{% url 'prayers:index' %}">Return to view all prayer items</a>
+
+<script>
+    window.setTimeout(function() {
+        $(document).foundation();
+    }, 100);
+</script>
 
 {% endblock %}

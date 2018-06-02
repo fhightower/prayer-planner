@@ -30,11 +30,6 @@
     {% endif %}
 </table>
 
-  <a class="button" href="{% url 'prayers:create' %}">Add a new prayer request</a>
+<a class="button" href="{% url 'prayers:create_request' %}">Add a new prayer request</a>
 
-  <script>
-    window.setTimeout(function() {
-        $(document).foundation();
-    }, 100);
-</script>
 {% endblock %}

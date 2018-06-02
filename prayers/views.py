@@ -1,11 +1,12 @@
 import datetime
 
-from django.views import generic
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
 from django.template.defaulttags import register
+from django.urls import reverse
+from django.views import generic
 
-from .models import PrayerItem, DAYS_OF_WEEK
+from .models import PrayerItem, JournalEntry, DAYS_OF_WEEK
 
 
 @register.filter
@@ -33,9 +34,24 @@ class DetailView(generic.DetailView):
     model = PrayerItem
 
 
-class CreateView(generic.edit.CreateView):
+class CreateRequestView(generic.edit.CreateView):
     model = PrayerItem
     fields = ['title', 'day', 'description']
 
     def get_success_url(self):
         return reverse('prayers:details', args=(self.object.id,))
+
+
+class CreateJournalEntryView(generic.edit.CreateView):
+    model = JournalEntry
+    fields = ['text']
+    pk = None
+
+    def post(self, request, **kwargs):
+        self.pk = kwargs.get('pk')
+        return self.save(request.POST.get('text'))
+
+    def save(self, text):
+        new_entry = JournalEntry(text=text, prayer_item=PrayerItem.objects.get(pk=self.pk))
+        new_entry.save()
+        return HttpResponseRedirect(reverse('prayers:details', args=(self.pk,)))
