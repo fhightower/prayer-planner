@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ object.title }}</h2>
-
-<p>{{ object.day }}</p>
+<h2><i>{{ object.day }}</i>: {{ object.title }}</h2>
 
 <!-- TODO: make sure this is displaying newlines properly -->
 <p>{{ object.description }}</p>
+<!-- TODO: if no description, add a link to add a description -->
 
 {% if object.journalentry_set.all %}
     <h3>Journal Entries</h3>
@@ -14,7 +13,7 @@
     <ul>
         {% for entry in object.journalentry_set.all %}
             <li>
-                <i>{{ entry.date_created|date:"F d, Y" }}:</i> {{ entry.text }}
+                <i>{{ entry.date_created|date:"F d, Y" }}:</i> {{ entry.text|truncatewords:25 }}
             </li>
         {% endfor %}
     </ul>

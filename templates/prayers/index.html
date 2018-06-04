@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Prayers</h2>
+<h2>My Prayers</h2>
 
-<table>
+<table style="box-shadow: 2px 2px 8px lightgrey, -2px 2px 8px lightgrey;">
     {% if prayer_requests %}
         <tr>
             {% for day in days %}
-                <th id="{{ day }}">
+                <th id="{{ day }}" style="background-color: white; border-right: 1px solid darkgrey; border-bottom: 1px solid darkgrey;">
                     {{ day }}
                 </th>
             {% endfor %}
@@ -16,7 +16,7 @@
     {% if prayer_requests %}
         <tr>
             {% for day in days %}
-                <td>
+                <td style="background-color: white; border-right: 1px solid darkgrey;">
                     {% if prayer_requests|get_item:day %}
                         <ul>
                             {% for request in prayer_requests|get_item:day %}
