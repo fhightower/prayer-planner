@@ -43,6 +43,14 @@ class CreateRequestView(LoginRequiredMixin, generic.edit.CreateView):
         return reverse('prayers:details', args=(self.object.id,))
 
 
+class UpdateRequestView(LoginRequiredMixin, generic.edit.UpdateView):
+    model = PrayerItem
+    fields = ['title', 'day', 'description']
+
+    def get_success_url(self):
+        return reverse('prayers:details', args=(self.object.id,))
+
+
 class CreateJournalEntryView(LoginRequiredMixin, generic.edit.CreateView):
     model = JournalEntry
     fields = ['text']

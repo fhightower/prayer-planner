@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2><i>{{ object.day }}</i>: {{ object.title }}</h2>
+<h2><i>{{ object.day }}</i>: {{ object.title }} &nbsp;<a href="{% url 'prayers:update_request' object.id %}"><i class="fa fa-edit" style="font-size:.70em;"></i></a></h2>
 
 <!-- TODO: make sure this is displaying newlines properly -->
 <p>{{ object.description }}</p>
