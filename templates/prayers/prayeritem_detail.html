@@ -13,7 +13,7 @@
     <ul>
         {% for entry in object.journalentry_set.all %}
             <li>
-                <i>{{ entry.date_created|date:"F d, Y" }}:</i> {{ entry.text|truncatewords:25 }}
+                <i>{{ entry.date_created|date:"F d, Y" }}:</i> {{ entry.text|truncatewords:25 }} &nbsp;<a href="{% url 'prayers:update_journal' prayer_item_pk=object.id pk=entry.id %}"><i class="fa fa-edit"></i></a>
             </li>
         {% endfor %}
     </ul>

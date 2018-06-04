@@ -51,16 +51,25 @@ class UpdateRequestView(LoginRequiredMixin, generic.edit.UpdateView):
         return reverse('prayers:details', args=(self.object.id,))
 
 
+class UpdateJournalEntryView(LoginRequiredMixin, generic.edit.UpdateView):
+    model = JournalEntry
+    fields = ['text']
+
+    def get_success_url(self, **kwargs):
+        print("kwargs {}".format(kwargs))
+        return reverse('prayers:details', args=(self.object.prayer_item.id,))
+
+
 class CreateJournalEntryView(LoginRequiredMixin, generic.edit.CreateView):
     model = JournalEntry
     fields = ['text']
-    pk = None
+    prayer_item_id = None
 
     def post(self, request, **kwargs):
-        self.pk = kwargs.get('pk')
+        self.prayer_item_id = kwargs.get('pk')
         return self.save(request.POST.get('text'))
 
     def save(self, text):
-        new_entry = JournalEntry(text=text, prayer_item=PrayerItem.objects.get(pk=self.pk))
+        new_entry = JournalEntry(text=text, prayer_item=PrayerItem.objects.get(pk=self.prayer_item_id))
         new_entry.save()
-        return HttpResponseRedirect(reverse('prayers:details', args=(self.pk,)))
+        return HttpResponseRedirect(reverse('prayers:details', args=(self.prayer_item_id,)))
