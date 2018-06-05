@@ -34,7 +34,6 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
 class DetailRequestView(LoginRequiredMixin, generic.DetailView):
     model = PrayerItem
 
-# TODO: Add a details view for journal entries
 
 class CreateRequestView(LoginRequiredMixin, generic.edit.CreateView):
     model = PrayerItem
