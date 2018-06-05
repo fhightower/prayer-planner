@@ -31,9 +31,10 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
         return render(request, self.template_name, {'prayer_requests': prayer_requests, 'days': [day[1] for day in DAYS_OF_WEEK], 'today': datetime.datetime.today().strftime('%A')})
 
 
-class DetailView(LoginRequiredMixin, generic.DetailView):
+class DetailRequestView(LoginRequiredMixin, generic.DetailView):
     model = PrayerItem
 
+# TODO: Add a details view for journal entries
 
 class CreateRequestView(LoginRequiredMixin, generic.edit.CreateView):
     model = PrayerItem
@@ -56,7 +57,6 @@ class UpdateJournalEntryView(LoginRequiredMixin, generic.edit.UpdateView):
     fields = ['text']
 
     def get_success_url(self, **kwargs):
-        print("kwargs {}".format(kwargs))
         return reverse('prayers:details', args=(self.object.prayer_item.id,))
 
 
@@ -73,3 +73,15 @@ class CreateJournalEntryView(LoginRequiredMixin, generic.edit.CreateView):
         new_entry = JournalEntry(text=text, prayer_item=PrayerItem.objects.get(pk=self.prayer_item_id))
         new_entry.save()
         return HttpResponseRedirect(reverse('prayers:details', args=(self.prayer_item_id,)))
+
+
+def delete_request(request, **kwargs):
+    entry = PrayerItem.objects.get(pk=kwargs['pk'])
+    entry.delete()
+    return HttpResponseRedirect(reverse('prayers:index',))
+
+
+def delete_journal(request, **kwargs):
+    journal_entry = JournalEntry.objects.get(pk=kwargs['pk'])
+    journal_entry.delete()
+    return HttpResponseRedirect(reverse('prayers:details', args=(kwargs['prayer_item_pk'],)))
