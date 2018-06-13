@@ -35,6 +35,27 @@ class DetailRequestView(LoginRequiredMixin, generic.DetailView):
     model = PrayerItem
 
 
+class MultiCreateRequestView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'prayers/prayeritem_multi_create.html'
+
+    def post(self, request):
+        request_titles = [request for request in dict(request.POST)['title'] if request != '']
+        request_days = [request for request in dict(request.POST)['dayOfWeek'] if request != '']
+        print("request request_titles {}".format(request_titles))
+        print("request_days {}".format(request_days))
+        if len(request_titles) != len(request_days):
+            # TODO: add a message here
+            pass
+        else:
+            for index, request_title in enumerate(request_titles):
+                new_prayer_item = PrayerItem(
+                    title=request_title,
+                    day=request_days[index]
+                )
+                new_prayer_item.save()
+            return HttpResponseRedirect(reverse('prayers:index',))
+
+
 class CreateRequestView(LoginRequiredMixin, generic.edit.CreateView):
     model = PrayerItem
     fields = ['title', 'day', 'description']
