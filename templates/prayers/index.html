@@ -3,32 +3,18 @@
 {% block content %}
 <h2>My Prayers</h2>
 
-<table style="box-shadow: 2px 2px 8px lightgrey, -2px 2px 8px lightgrey;">
-    {% if prayer_requests %}
-        <tr>
-            {% for day in days %}
-                <th id="{{ day }}" style="background-color: white; border-right: 1px solid darkgrey; border-bottom: 1px solid darkgrey;">
-                    {{ day }}
-                </th>
-            {% endfor %}
-        </tr>
-    {% endif %}
-    {% if prayer_requests %}
-        <tr>
-            {% for day in days %}
-                <td style="background-color: white; border-right: 1px solid darkgrey;">
-                    {% if prayer_requests|get_item:day %}
-                        <ul>
-                            {% for request in prayer_requests|get_item:day %}
-                            <li><a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </td>
-            {% endfor %}
-        </tr>
-    {% endif %}
-</table>
+{% if prayer_requests %}
+        {% for day in days %}
+            {% if prayer_requests|get_item:day %}
+                <h3 id="{{day}}">{{ day }}</h3>
+                <ul>
+                    {% for request in prayer_requests|get_item:day %}
+                    <li><a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+{% endif %}
 
 <a class="button" href="{% url 'prayers:create_request' %}">Add a new prayer request</a>
 <a class="button secondary" href="{% url 'prayers:multi_create' %}">Add multiple requests</a>
