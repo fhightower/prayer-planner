@@ -2,9 +2,10 @@ import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.defaulttags import register
 from django.urls import reverse
+from django.contrib import messages
 from django.views import generic
 
 from .models import PrayerItem, JournalEntry, DAYS_OF_WEEK
@@ -22,13 +23,18 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
     def get(self, request):
         prayer_requests = dict()
 
-        for day in DAYS_OF_WEEK:
-            try:
-                prayer_requests[day[1]] = PrayerItem.objects.filter(day=day[0])
-            except PrayerItem.DoesNotExist:
-                prayer_requests[day[1]] = []
+        print("request args {}".format(request.GET))
 
-        return render(request, self.template_name, {'prayer_requests': prayer_requests, 'days': [day[1] for day in DAYS_OF_WEEK], 'today': datetime.datetime.today().strftime('%A')})
+        if not request.GET.get('set'):
+            return redirect(reverse('prayers:index') + "?set=1#{}".format(DAYS_OF_WEEK[datetime.datetime.today().weekday()][1]))
+        else:
+            for day in DAYS_OF_WEEK:
+                try:
+                    prayer_requests[day[1]] = PrayerItem.objects.filter(day=day[0])
+                except PrayerItem.DoesNotExist:
+                    prayer_requests[day[1]] = []
+
+            return render(request, self.template_name, {'prayer_requests': prayer_requests, 'days': [day[1] for day in DAYS_OF_WEEK], 'today': datetime.datetime.today().strftime('%A')})
 
 
 class DetailRequestView(LoginRequiredMixin, generic.DetailView):
@@ -44,8 +50,8 @@ class MultiCreateRequestView(LoginRequiredMixin, generic.TemplateView):
         print("request request_titles {}".format(request_titles))
         print("request_days {}".format(request_days))
         if len(request_titles) != len(request_days):
-            # TODO: add a message here
-            pass
+            messages.error(request, 'Found a different number of requests and days of the week... please make sure there is an equal number of things in the column on the left as the column on the right.')
+            return HttpResponseRedirect(reverse('prayers:multi_create',))
         else:
             for index, request_title in enumerate(request_titles):
                 new_prayer_item = PrayerItem(
