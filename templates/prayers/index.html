@@ -9,7 +9,7 @@
                 <h3 id="{{day}}">{{ day }}</h3>
                 <ul>
                     {% for request in prayer_requests|get_item:day %}
-                    <li><a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
+                        <li id="{{request.id}}"><input type="checkbox" onclick="completeRequest({{request.id}})"> <a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -19,4 +19,17 @@
 <a class="button" href="{% url 'prayers:create_request' %}">Add a new prayer request</a>
 <a class="button secondary" href="{% url 'prayers:multi_create' %}">Add multiple requests</a>
 
+<script>
+    function completeRequest(element_id) {
+        /* When a task is marked as done, change it's display to strike-through. */
+        var checkBoxChecked = $('#' + element_id + ' input')
+            [0].checked;
+
+        if (checkBoxChecked) {
+            $('#' + element_id + ' a').css('text-decoration', 'line-through');
+        } else {
+            $('#' + element_id + ' a').css('text-decoration', 'inherit');
+        }
+    }
+</script>
 {% endblock %}
