@@ -23,10 +23,8 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
     def get(self, request):
         prayer_requests = dict()
 
-        print("request args {}".format(request.GET))
-
-        if not request.GET.get('set'):
-            return redirect(reverse('prayers:index') + "?set=1#{}".format(DAYS_OF_WEEK[datetime.datetime.today().weekday()][1]))
+        if not request.GET.get('s'):
+            return redirect(reverse('prayers:index') + "?s=1#{}".format(DAYS_OF_WEEK[datetime.datetime.today().weekday()][1]))
         else:
             for day in DAYS_OF_WEEK:
                 try:

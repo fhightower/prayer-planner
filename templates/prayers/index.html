@@ -9,7 +9,7 @@
                 <h3 id="{{day}}">{{ day }}</h3>
                 <ul>
                     {% for request in prayer_requests|get_item:day %}
-                        <li id="{{request.id}}"><input type="checkbox" onclick="completeRequest({{request.id}})"> <a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
+                        <li id="{{request.id}}" style="list-style-type: none;"><input type="checkbox" onclick="completeRequest({{request.id}})"> &nbsp;&nbsp;<a href="{% url 'prayers:details' request.id %}">{{ request.title }}</a></li>
                     {% endfor %}
                 </ul>
             {% endif %}
