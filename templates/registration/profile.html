@@ -3,12 +3,5 @@
 {% block content %}
     <h2>Welcome {{ user.username }}</h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            {% autoescape off %}
-                <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
-            {% endautoescape %}
-        {% endfor %}
-        <br><br>
-    {% endif %}
+    <a href="{% url 'accounts:password_change' %}">Change your password</a>
 {% endblock %}
