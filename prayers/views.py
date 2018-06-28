@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views import generic
 
-from .models import PrayerItem, JournalEntry, DAYS_OF_WEEK
+from .models import PrayerItem, JournalEntry, BiblePassage, DAYS_OF_WEEK
 
 
 @register.filter
@@ -109,3 +109,8 @@ def delete_journal(request, **kwargs):
     journal_entry = JournalEntry.objects.get(pk=kwargs['pk'])
     journal_entry.delete()
     return HttpResponseRedirect(reverse('prayers:details', args=(kwargs['prayer_item_pk'],)))
+
+
+class CreatePassageView(LoginRequiredMixin, generic.edit.CreateView):
+    model = BiblePassage
+    fields = ['reference', 'text', 'note']

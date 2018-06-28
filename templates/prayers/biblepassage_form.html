@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Bible Passage</h2>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input class="button" type="submit" value="Save" />
+</form>
+
+<script>
+    window.setTimeout(function() {
+        $('input')[0].focus();
+    }, 100);
+</script>
+{% endblock %}

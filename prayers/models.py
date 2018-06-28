@@ -31,3 +31,9 @@ class JournalEntry(models.Model):
             self.date_created = timezone.now()
         # self.modified = timezone.now()
         return super(JournalEntry, self).save(*args, **kwargs)
+
+
+class BiblePassage(models.Model):
+    reference = models.CharField(max_length=50)
+    text = models.TextField()
+    note = models.TextField()

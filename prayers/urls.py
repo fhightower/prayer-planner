@@ -16,4 +16,5 @@ urlpatterns = [
     path('request/<int:prayer_item_pk>/journal/<int:pk>/update', views.UpdateJournalEntryView.as_view(), name='update_journal'),
     path('request/<int:prayer_item_pk>/journal/<int:pk>/delete', views.delete_journal, name='delete_journal'),
     path('request/<int:pk>/journal/create', views.CreateJournalEntryView.as_view(), name='create_journal'),
+    path('passage/create/', views.CreatePassageView.as_view(), name='create_passage'),
 ]
