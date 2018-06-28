@@ -26,13 +26,17 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
         if not request.GET.get('s'):
             return redirect(reverse('prayers:index') + "?s=1#{}".format(DAYS_OF_WEEK[datetime.datetime.today().weekday()][1]))
         else:
+            # for each day, collect the prayer requests for this day
             for day in DAYS_OF_WEEK:
                 try:
                     prayer_requests[day[1]] = PrayerItem.objects.filter(day=day[0])
                 except PrayerItem.DoesNotExist:
                     prayer_requests[day[1]] = []
 
-            return render(request, self.template_name, {'prayer_requests': prayer_requests, 'days': [day[1] for day in DAYS_OF_WEEK], 'today': datetime.datetime.today().strftime('%A')})
+            # get the most recent bible passage
+            bible_passage = BiblePassage.objects.last()
+
+            return render(request, self.template_name, {'prayer_requests': prayer_requests, 'days': [day[1] for day in DAYS_OF_WEEK], 'bible_passage': bible_passage})
 
 
 class DetailRequestView(LoginRequiredMixin, generic.DetailView):
@@ -114,3 +118,6 @@ def delete_journal(request, **kwargs):
 class CreatePassageView(LoginRequiredMixin, generic.edit.CreateView):
     model = BiblePassage
     fields = ['reference', 'text', 'note']
+
+    def get_success_url(self):
+        return reverse('prayers:index')

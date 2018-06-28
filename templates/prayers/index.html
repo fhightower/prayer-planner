@@ -3,6 +3,14 @@
 {% block content %}
 <h2>My Prayers</h2>
 
+<div class="float-right">
+    {{ bible_passage.reference }}
+    <br>
+    {{ bible_passage.text }}
+    <br>
+    {{ bible_passage.note }}
+</div>
+
 {% if prayer_requests %}
         {% for day in days %}
             {% if prayer_requests|get_item:day %}
