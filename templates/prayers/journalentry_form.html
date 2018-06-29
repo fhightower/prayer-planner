@@ -5,6 +5,7 @@
 
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
+    <a class="button secondary" href="{% url 'prayers:details' kwargs.pk %}">Cancel</a>
     <input class="button" type="submit" value="Save" />
 </form>
 
