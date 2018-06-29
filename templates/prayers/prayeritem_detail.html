@@ -41,9 +41,9 @@
     </ul>
 {% endif %}
 
-<a href="{% url 'prayers:create_journal' object.id %}">Add a journal entry</a><br>
+<a href="{% url 'prayers:create_journal' object.id %}" style="text-decoration: underline;">Add a journal entry/update</a><br>
 
-<a href="{% url 'prayers:index' %}">Return to view all prayer items</a>
+<a href="{% url 'prayers:index' %}" style="text-decoration: underline;">Return to view all prayer items</a>
 
 <script>
     window.setTimeout(function() {
