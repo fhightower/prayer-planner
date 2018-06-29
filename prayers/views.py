@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.template.defaulttags import register
 from django.urls import reverse
@@ -103,16 +104,21 @@ class CreateJournalEntryView(LoginRequiredMixin, generic.edit.CreateView):
         return HttpResponseRedirect(reverse('prayers:details', args=(self.prayer_item_id,)))
 
 
+@login_required
 def delete_request(request, **kwargs):
     entry = PrayerItem.objects.get(pk=kwargs['pk'])
     entry.delete()
     return HttpResponseRedirect(reverse('prayers:index',))
 
 
+@login_required
 def delete_journal(request, **kwargs):
     journal_entry = JournalEntry.objects.get(pk=kwargs['pk'])
-    journal_entry.delete()
-    return HttpResponseRedirect(reverse('prayers:details', args=(kwargs['prayer_item_pk'],)))
+    prayer_item_id = kwargs['prayer_item_pk']
+    # make sure that the prayer item corresponding to the journal entry is correct... this makes it harder to maliciously delete things
+    if journal_entry.prayer_item.id == prayer_item_id:
+        journal_entry.delete()
+    return HttpResponseRedirect(reverse('prayers:details', args=(prayer_item_id,)))
 
 
 class CreatePassageView(LoginRequiredMixin, generic.edit.CreateView):
