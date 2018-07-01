@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from accounts.models import User
+
 
 DAYS_OF_WEEK = (
     ('Mon', 'Monday'),
@@ -18,6 +20,7 @@ class PrayerItem(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     day = models.CharField(max_length=5, choices=DAYS_OF_WEEK)
     description = models.TextField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class JournalEntry(models.Model):

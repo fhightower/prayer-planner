@@ -5,8 +5,12 @@
 
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
-    <a class="button secondary" href="{% url 'prayers:details' kwargs.pk %}">Cancel</a>
     <input class="button" type="submit" value="Save" />
+    {% if object is not None %}
+        <a class="button secondary" href="{% url 'prayers:details' object.prayer_item.id %}">Cancel</a>
+    {% else %}
+        <a class="button secondary" href="{% url 'prayers:index' %}">Cancel</a>
+    {% endif %}
 </form>
 
 <script>
