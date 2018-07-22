@@ -6,9 +6,11 @@
 &nbsp;<a href="{% url 'prayers:delete_request' object.id %}" title="Delete prayer item"><i class="fa fa-trash" style="font-size:.70em;"></i></a>
 </h2>
 
-<!-- TODO: make sure this is displaying newlines properly -->
-<p>{{ object.description }}</p>
-<!-- TODO: if no description, add a link to add a description -->
+{% if object.description %}
+    <p>{{ object.description|linebreaks }}</p>
+{% else %}
+    <p><i>No description yet... but you can <a href="{% url 'prayers:update_request' object.id %}" title="Update prayer item">add one</a>.</i></p>
+{% endif %}
 
 {% if object.journalentry_set.all %}
     <h3>Journal Entries</h3>
@@ -45,6 +47,8 @@
         {% endfor %}
     </ul>
 {% endif %}
+
+<br><br><br>
 
 <a href="{% url 'prayers:create_journal' object.id %}" style="text-decoration: underline;">Add a journal entry/update</a><br>
 
