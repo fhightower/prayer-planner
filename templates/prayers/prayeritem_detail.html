@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2><i>{{ object.day }}</i>: {{ object.title }} &nbsp;<a href="{% url 'prayers:update_request' object.id %}" title="Update prayer item"><i class="fa fa-edit" style="font-size:.70em;"></i></a>
+<h2>{{ object.title }} <i>({{ object.day }})</i> &nbsp;<a href="{% url 'prayers:update_request' object.id %}" title="Update prayer item"><i class="fa fa-edit" style="font-size:.70em;"></i></a>
 <!-- &nbsp;<a onclick="confirmPrayerDeletion()" title="Delete prayer item"><i class="fa fa-trash" style="font-size:.70em;"></i></a> -->
 &nbsp;<a href="{% url 'prayers:delete_request' object.id %}" title="Delete prayer item"><i class="fa fa-trash" style="font-size:.70em;"></i></a>
 </h2>
 
-{% if object.description %}
-    <p>{{ object.description|linebreaks }}</p>
-{% else %}
-    <p><i>No description yet... but you can <a href="{% url 'prayers:update_request' object.id %}" title="Update prayer item">add one</a>.</i></p>
-{% endif %}
+<div style="margin-left: 2em;">
+    {% if object.description %}
+        <p>{{ object.description|linebreaks }}</p>
+    {% else %}
+        <p><i>No description yet... but you can <a href="{% url 'prayers:update_request' object.id %}" title="Update prayer item">add one</a>.</i></p>
+    {% endif %}
+</div>
+
+<br>
 
 {% if object.journalentry_set.all %}
-    <h3>Journal Entries</h3>
+    <h3>Journal Entries &nbsp;<a href="{% url 'prayers:create_journal' object.id %}" style="text-decoration: underline;" title="Add a journal entry"><i class="fa fa-plus-square"></i></a><br></h3>
 
     <ul>
         {% for entry in object.journalentry_set.all %}
-            <li>
-                <a data-open="journalModal{{ entry.id }}"><i>{{ entry.date_created|date:"F d, Y (G:i)" }}:</i></a> {{ entry.text|truncatewords:25 }} &nbsp;<a href="{% url 'prayers:update_journal' prayer_item_pk=object.id pk=entry.id %}" title="Update journal entry"><i class="fa fa-edit"></i></a>
-                <!-- &nbsp;<a onclick="confirmJournal{{entry.id}}Deletion()" title="Delete journal entry"><i class="fa fa-trash"></i></a> -->
-                &nbsp;<a href="{% url 'prayers:delete_journal' prayer_item_pk=object.id pk=entry.id %}" title="Delete journal entry"><i class="fa fa-trash"></i></a>
+            <li style="margin-left: 2em;">
+                <i>{{ entry.date_created|date:"F d, Y G:i" }}</i> &nbsp;- &nbsp;{{ entry.text|truncatewords:20 }} &nbsp;&nbsp;<a data-open="journalModal{{ entry.id }}" title="View full journal entry"><i class="fa fa-eye"></i></a> &nbsp;&nbsp;<a href="{% url 'prayers:update_journal' prayer_item_pk=object.id pk=entry.id %}" title="Update journal entry"><i class="fa fa-edit"></i></a>
+                <!-- &nbsp;&nbsp;<a onclick="confirmJournal{{entry.id}}Deletion()" title="Delete journal entry"><i class="fa fa-trash"></i></a> --> &nbsp;&nbsp;<a href="{% url 'prayers:delete_journal' prayer_item_pk=object.id pk=entry.id %}" title="Delete journal entry"><i class="fa fa-trash"></i></a>
 
 <!--                 <script>
                     function confirmJournal{{entry.id}}Deletion() {
@@ -46,11 +49,11 @@
             </li>
         {% endfor %}
     </ul>
+{% else %}
+<a href="{% url 'prayers:create_journal' object.id %}" style="text-decoration: underline;">Add a journal entry/update</a><br>
 {% endif %}
 
 <br><br><br>
-
-<a href="{% url 'prayers:create_journal' object.id %}" style="text-decoration: underline;">Add a journal entry/update</a><br>
 
 <a href="{% url 'prayers:index' %}" style="text-decoration: underline;">Return to view all prayer items</a>
 
