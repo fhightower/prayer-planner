@@ -35,7 +35,7 @@
 
                 <div class="reveal" id="journalModal{{ entry.id }}" data-reveal>
                     <h3>Journal Entry from {{ entry.date_created }}</h3>
-                    <p>{{ entry.text }}</p>
+                    <p>{{ entry.text|linebreaks }}</p>
                     <p><a href="{% url 'prayers:update_journal' prayer_item_pk=object.id pk=entry.id %}" title="Update journal entry">Update journal entry</a>
                     <br>
                     <a onclick="confirmJournal{{ entry.id }}Deletion()" title="Delete journal entry">Delete journal entry</a></p>
