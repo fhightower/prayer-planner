@@ -8,7 +8,6 @@ app_name="prayer_planner"
 urlpatterns = [
     path(r'', views.IndexView.as_view(), name='index'),
     path('prayers/', include('prayers.urls')),
-    path(r'about/', views.AboutView.as_view(), name='about'),
     path(r'accounts/', include('accounts.urls')),
     path(r'admin/', admin.site.urls),
 ]

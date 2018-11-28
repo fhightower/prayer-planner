@@ -4,8 +4,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="utf-8">
         <title>Prayer Planner/Journal</title>
-        <!-- TODO: add more details here (3) -->
-        <meta name="description" content="">
+        <meta name="description" content="Prayer planner and prayer journal to help christians pray effectively and consistently.">
         <meta name="author" content="Floyd Hightower">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -27,13 +26,13 @@
                 <a href="{% url 'index' %}" style="color: #f8f8f7;"><b>Prayer Planner and Journal</b></a>
             </div>
             <div class="top-bar-right">
-                <a href="{% url 'about' %}" style="color: #f8f8f7; padding-right: 1.5em;">About</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'prayers:index' %}" style="color: #f8f8f7; padding-right: 1.5em;">My Prayers</a>
                     <a href="{% url 'accounts:profile' %}" style="color: #f8f8f7; padding-right: 1.5em;">My Profile</a>
                     <a href="{% url 'accounts:logout' %}" style="color: #f8f8f7; padding-right: 1.5em;">Logout</a>
                 {% else %}
-                    <a href="{% url 'accounts:login' %}" style="color: #f8f8f7; padding-right: 1.5em;">Login/Register</a>
+                    <a href="{% url 'accounts:login' %}" style="color: #f8f8f7; padding-right: 1.5em;">Login</a>
+                    <a href="{% url 'accounts:register' %}" style="color: #f8f8f7; padding-right: 1.5em;">Register</a>
                 {% endif %}
             </div>
         </div>

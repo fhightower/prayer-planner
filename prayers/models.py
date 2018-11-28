@@ -28,13 +28,6 @@ class JournalEntry(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     prayer_item = models.ForeignKey(PrayerItem, on_delete=models.CASCADE)
 
-    def save(self, *args, **kwargs):
-        """On save, update timestamps"""
-        if not self.date_created:
-            self.date_created = timezone.now()
-        # self.modified = timezone.now()
-        return super(JournalEntry, self).save(*args, **kwargs)
-
 
 class BiblePassage(models.Model):
     reference = models.CharField(max_length=50)
